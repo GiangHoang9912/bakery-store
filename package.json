@@ -1,0 +1,11 @@
+{
+  "name": "bakery-store",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/GiangHoang9912/bakery-store.git",
+  "author": "Giang Hoang <gianghoang.9955@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "prisma": "^5.20.0"
+  }
+}
