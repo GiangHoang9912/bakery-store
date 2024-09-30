@@ -13,9 +13,86 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model SystemConfigs {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model User {
   id        String   @id @default(cuid())
   username  String   @unique
+  password  String
+  email     String   @unique
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-} 
+  orders    Orders[]
+}
+
+model Orders {
+  id           String          @id @default(cuid())
+  userId       String
+  user         User            @relation(fields: [userId], references: [id])
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  orderDetails Order_details[]
+}
+
+model Receivers {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  address   String
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Products {
+  id           String         @id @default(cuid())
+  name         String
+  price        Float
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  orderDetails Order_details?
+  vouchers     Vouchers[]
+}
+
+model Order_details {
+  id        String    @id @default(cuid())
+  orderId   String
+  order     Orders    @relation(fields: [orderId], references: [id])
+  porductId String?   @unique
+  Products  Products? @relation(fields: [porductId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Vouchers {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  discount  Float
+  productId String?
+  product   Products? @relation(fields: [productId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiredAt DateTime? @default(now())
+}
+
+model ContactUs {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  note      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
