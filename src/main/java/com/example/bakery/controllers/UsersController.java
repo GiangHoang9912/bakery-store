@@ -1,22 +1,28 @@
 package com.example.bakery.controllers;
 
-import java.util.List;
-import com.example.bakery.models.Users;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.bakery.dto.RegisterRequest;
+import com.example.bakery.models.User;
 import com.example.bakery.services.UsersService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
-  private UsersService usersService;
-  public UsersController() {
-    System.out.println("UsersController");
-    this.usersService = new UsersService();
-  }
-  @RequestMapping("/get")
-  public List<Users> getUser() {
-    List<Users> users = this.usersService.getUsers();
-    return users;
-  }
+    private final UsersService usersService;
+
+    @Autowired
+    public UsersController(UsersService usersService) {
+        this.usersService = usersService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<List<User>> registerUser(@RequestBody RegisterRequest registerRequest) {
+        List<User> registeredUser = usersService.registerUser(registerRequest);
+        return ResponseEntity.ok(registeredUser);
+    }
 }

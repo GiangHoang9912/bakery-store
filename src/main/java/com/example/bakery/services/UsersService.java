@@ -1,23 +1,39 @@
 package com.example.bakery.services;
 
-import java.util.ArrayList;
+import com.example.bakery.dto.RegisterRequest;
+import com.example.bakery.models.User;
+import com.example.bakery.models.Role;
+import com.example.bakery.repository.UserRepository;
+
 import java.util.List;
-import com.example.bakery.models.Users;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
 public class UsersService {
-  public UsersService() {
-    System.out.println("UsersService");
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UsersService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+      this.userRepository = userRepository;
+      this.passwordEncoder = passwordEncoder;
   }
 
-  public List<Users> getUsers() {
-    List<Users> users = new ArrayList<Users>();
-    users.add(new Users("1", "Giang Hoang", "123456"));
-    users.add(new Users("2", "Nguyen Van A", "123456"));
+    public List<User> registerUser(RegisterRequest registerRequest) {
+        return userRepository.findAll();
+        // if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+        //     throw new RuntimeException("Email already exists");
+        // }
 
-    return users;
-  }
+        // User newUser = new User();
+        // newUser.setUsername(registerRequest.getUsername());
+        // newUser.setEmail(registerRequest.getEmail());
+        // newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        // newUser.setRole(Role.USER);
 
-  public Users getUser(String id) {
-    return new Users("1", "Giang Hoang", "123456");
-  }
+        // return userRepository.save(newUser);
+    }
 }
