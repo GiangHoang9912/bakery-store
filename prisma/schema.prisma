@@ -14,7 +14,7 @@ datasource db {
 }
 
 model SystemConfigs {
-  id        String   @id @default(cuid())
+  id        Int   @id @default(autoincrement())
   key       String   @unique
   value     String
   createdAt DateTime @default(now())
@@ -22,7 +22,7 @@ model SystemConfigs {
 }
 
 model User {
-  id        String   @id @default(cuid())
+   id        Int   @id @default(autoincrement())
   username  String   @unique
   password  String
   email     String   @unique
@@ -30,11 +30,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders    Orders[]
+
+  @@map("user")
 }
 
 model Orders {
-  id           String          @id @default(cuid())
-  userId       String
+   id        Int   @id @default(autoincrement())
+  userId       Int
   user         User            @relation(fields: [userId], references: [id])
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
@@ -42,7 +44,7 @@ model Orders {
 }
 
 model Receivers {
-  id        String   @id @default(cuid())
+  id        Int   @id @default(autoincrement())
   name      String
   phone     String
   address   String
@@ -52,7 +54,7 @@ model Receivers {
 }
 
 model Products {
-  id           String         @id @default(cuid())
+  id        Int   @id @default(autoincrement())
   name         String
   price        Float
   createdAt    DateTime       @default(now())
@@ -62,20 +64,20 @@ model Products {
 }
 
 model Order_details {
-  id        String    @id @default(cuid())
-  orderId   String
+  id        Int   @id @default(autoincrement())
+  orderId   Int
   order     Orders    @relation(fields: [orderId], references: [id])
-  porductId String?   @unique
+  porductId Int?   @unique
   Products  Products? @relation(fields: [porductId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
 
 model Vouchers {
-  id        String    @id @default(cuid())
+  id        Int   @id @default(autoincrement())
   code      String    @unique
   discount  Float
-  productId String?
+  productId Int?
   product   Products? @relation(fields: [productId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
