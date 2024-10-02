@@ -6,6 +6,7 @@
   "author": "Giang Hoang <gianghoang.9955@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "5.20.0",
     "prisma": "^5.20.0"
   }
 }

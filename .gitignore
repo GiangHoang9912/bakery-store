@@ -33,3 +33,5 @@ build/
 .vscode/
 Services_Data
 target
+
+node_modules
