@@ -22,18 +22,17 @@ public class UsersService {
       this.passwordEncoder = passwordEncoder;
   }
 
-    public List<User> registerUser(RegisterRequest registerRequest) {
-        return userRepository.findAll();
-        // if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-        //     throw new RuntimeException("Email already exists");
-        // }
+    public User registerUser(RegisterRequest registerRequest) {
+        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
 
-        // User newUser = new User();
-        // newUser.setUsername(registerRequest.getUsername());
-        // newUser.setEmail(registerRequest.getEmail());
-        // newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        // newUser.setRole(Role.USER);
+        User newUser = new User();
+        newUser.setUsername(registerRequest.getUsername());
+        newUser.setEmail(registerRequest.getEmail());
+        newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        newUser.setRole(Role.USER);
 
-        // return userRepository.save(newUser);
+        return userRepository.save(newUser);
     }
 }
