@@ -5,8 +5,6 @@ import com.example.bakery.models.User;
 import com.example.bakery.models.Role;
 import com.example.bakery.repository.UserRepository;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,5 +32,9 @@ public class UsersService {
         newUser.setRole(Role.USER);
 
         return userRepository.save(newUser);
+    }
+
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 }

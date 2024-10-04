@@ -25,4 +25,14 @@ public class UsersController {
         User registeredUser = usersService.registerUser(registerRequest);
         return ResponseEntity.ok(registeredUser);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+        User user = usersService.getUserById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

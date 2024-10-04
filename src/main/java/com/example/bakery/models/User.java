@@ -1,6 +1,11 @@
 package com.example.bakery.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "\"user\"")
@@ -79,5 +84,8 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
     }
 }
