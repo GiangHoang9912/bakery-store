@@ -1,21 +1,19 @@
 package com.example.bakery.services;
 
+import com.example.bakery.dto.CreateProductDto;
 import com.example.bakery.dto.ProductDto;
 import com.example.bakery.dto.ProductSearchCriteria;
 import com.example.bakery.models.Product;
 import com.example.bakery.repository.ProductRepository;
-
-import jakarta.persistence.criteria.Predicate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductManagementService {
@@ -27,29 +25,29 @@ public class ProductManagementService {
         this.productRepository = productRepository;
     }
 
-    public Page<ProductDto> searchProducts(ProductSearchCriteria criteria, Pageable pageable) {
-        Specification<Product> spec = (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (criteria.getSearchTerm() != null && !((Streamable<ProductDto>) criteria.getSearchTerm()).isEmpty()) {
-                String searchTerm = "%" + ((String) criteria.getSearchTerm()).toLowerCase() + "%";
-                predicates.add(criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), searchTerm),
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("productCode")), searchTerm)
-                ));
-            }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        };
+    // ... existing methods ...
 
-        return productRepository.findAll(spec, pageable).map(this::convertToDto);
+    public ProductDto createProduct(CreateProductDto createProductDto) {
+        Product product = new Product();
+        product.setName(createProductDto.getName());
+        product.setPrice(createProductDto.getPrice());
+        product.setDescription(createProductDto.getDescription());
+        product.setProductCode(generateProductCode());
+
+        Product savedProduct = productRepository.save(product);
+        return convertToDto(savedProduct);
     }
 
-    private ProductDto convertToDto(Product product) {
-        ProductDto dto = new ProductDto();
-        dto.setId(product.getId());
-        dto.setProduct(product.getProduct());
-        dto.setName(product.getName());
-        dto.setPrice(product.getPrice());
-        dto.setDescription(product.getDescription());
-        return dto;
+    private ProductDto convertToDto(Product savedProduct) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'convertToDto'");
     }
+
+    private String generateProductCode() {
+        // Generate a unique product code. This is a simple implementation.
+        // In a real-world scenario, you might want to use a more sophisticated method.
+        return "PROD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    // ... other methods ...
 }
