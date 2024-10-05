@@ -21,5 +21,15 @@ public class CartItem {
 
     private int quantity;
 
+    public void setProduct(Product product2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setProduct'");
+    }
+
+    public void setQuantity(int i) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setQuantity'");
+    }
+
     // Getters and setters
 }

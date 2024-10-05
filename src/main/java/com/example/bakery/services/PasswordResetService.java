@@ -3,7 +3,6 @@ package com.example.bakery.services;
 import com.example.bakery.models.User;
 import com.example.bakery.models.PasswordResetToken;
 import com.example.bakery.repository.UserRepository;
-import com.example.bakery.utils.EmailService;
 import com.example.bakery.repository.PasswordResetTokenRepository;
 import com.example.bakery.exceptions.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Autowired;
