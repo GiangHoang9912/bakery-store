@@ -48,4 +48,14 @@ public class CustomerDto {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public void setId(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    }
+
+    public void setPhoneNumber(Object phoneNumber) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPhoneNumber'");
+    }
 }
