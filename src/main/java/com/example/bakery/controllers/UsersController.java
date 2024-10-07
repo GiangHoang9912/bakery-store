@@ -3,9 +3,6 @@ package com.example.bakery.controllers;
 import com.example.bakery.dto.RegisterRequest;
 import com.example.bakery.models.User;
 import com.example.bakery.services.UsersService;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
