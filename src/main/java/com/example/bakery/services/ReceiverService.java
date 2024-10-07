@@ -23,7 +23,7 @@ public class ReceiverService {
         return receiverRepository.findAll();
     }
 
-    public Optional<Receivers> getReceiverById(Integer id) {
+    public Optional<Receivers> getReceiverById(Long id) {
         return receiverRepository.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class ReceiverService {
         return receiverRepository.save(receiver);
     }
 
-    public Optional<Receivers> updateReceiver(Integer id, Receivers receiverDetails) {
+    public Optional<Receivers> updateReceiver(Long id, Receivers receiverDetails) {
         return receiverRepository.findById(id)
                 .map(existingReceiver -> {
                     existingReceiver.setName(receiverDetails.getName());
@@ -45,7 +45,7 @@ public class ReceiverService {
                 });
     }
 
-    public boolean deleteReceiver(Integer id) {
+    public boolean deleteReceiver(Long id) {
         return receiverRepository.findById(id)
                 .map(receiver -> {
                     receiverRepository.delete(receiver);

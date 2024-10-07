@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.example.bakery.models.User;
-import com.example.bakery.security.UserPrincipal;
 
 import java.util.Date;
 

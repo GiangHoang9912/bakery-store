@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class ContactUs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -44,7 +44,7 @@ public class ContactUs {
     }
 
     // Getters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

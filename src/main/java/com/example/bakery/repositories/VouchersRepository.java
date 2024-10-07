@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface VouchersRepository extends JpaRepository<Vouchers, Integer> {
+public interface VouchersRepository extends JpaRepository<Vouchers, Long> {
     List<Vouchers> findByExpiredAtAfter(LocalDateTime date);
     List<Vouchers> findByCode(String code);
-    List<Vouchers> findByProductId(Integer productId);
+    List<Vouchers> findByProductId(Long productId);
 }

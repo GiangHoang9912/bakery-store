@@ -22,7 +22,7 @@ public class OrderDetailsService {
         return orderDetailsRepository.findAll();
     }
 
-    public Optional<OrderDetails> getOrderDetailsById(Integer id) {
+    public Optional<OrderDetails> getOrderDetailsById(Long id) {
         return orderDetailsRepository.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class OrderDetailsService {
         return orderDetailsRepository.save(orderDetails);
     }
 
-    public Optional<OrderDetails> updateOrderDetails(Integer id, OrderDetails orderDetails) {
+    public Optional<OrderDetails> updateOrderDetails(Long id, OrderDetails orderDetails) {
         return orderDetailsRepository.findById(id)
                 .map(existingOrderDetails -> {
                     existingOrderDetails.setOrder(orderDetails.getOrder());
@@ -40,7 +40,7 @@ public class OrderDetailsService {
                 });
     }
 
-    public boolean deleteOrderDetails(Integer id) {
+    public boolean deleteOrderDetails(Long id) {
         return orderDetailsRepository.findById(id)
                 .map(orderDetails -> {
                     orderDetailsRepository.delete(orderDetails);

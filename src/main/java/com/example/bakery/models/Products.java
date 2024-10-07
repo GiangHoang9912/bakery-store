@@ -2,6 +2,7 @@ package com.example.bakery.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -9,33 +10,29 @@ import java.util.List;
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    @Column(nullable = false)
     private String name;
+    private float price;
 
-    @Column(nullable = false)
-    private Float price;
-
-    @Column(nullable = false)
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "Products")
-    private OrderDetails orderDetails;
-
     @OneToMany(mappedBy = "product")
-    private List<Vouchers> vouchers;
+    private List<Vouchers> vouchers = new ArrayList<>();
 
-    // Constructors, getters, and setters
-    // Default constructor
+    @OneToOne(mappedBy = "product")
+    private OrderDetails orderDetail;
+
+    // Controller and Getters and setters
+    // Constructor
     public Products() {
     }
 
-    // Parameterized constructor
-    public Products(String name, Float price) {
+    public Products(String name, float price) {
         this.name = name;
         this.price = price;
         this.createdAt = LocalDateTime.now();
@@ -43,11 +40,11 @@ public class Products {
     }
 
     // Getters and Setters
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,11 +56,11 @@ public class Products {
         this.name = name;
     }
 
-    public Float getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -83,14 +80,6 @@ public class Products {
         this.updatedAt = updatedAt;
     }
 
-    public OrderDetails getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(OrderDetails orderDetails) {
-        this.orderDetails = orderDetails;
-    }
-
     public List<Vouchers> getVouchers() {
         return vouchers;
     }
@@ -99,14 +88,11 @@ public class Products {
         this.vouchers = vouchers;
     }
 
-    @Override
-    public String toString() {
-        return "Products{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+    public OrderDetails getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetails orderDetail) {
+        this.orderDetail = orderDetail;
     }
 }

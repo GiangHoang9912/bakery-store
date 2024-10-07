@@ -26,7 +26,7 @@ public class ReceiverController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Receivers> getReceiverById(@PathVariable Integer id) {
+    public ResponseEntity<Receivers> getReceiverById(@PathVariable Long id) {
         return receiverService.getReceiverById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -39,14 +39,14 @@ public class ReceiverController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Receivers> updateReceiver(@PathVariable Integer id, @RequestBody Receivers receiver) {
+    public ResponseEntity<Receivers> updateReceiver(@PathVariable Long id, @RequestBody Receivers receiver) {
         return receiverService.updateReceiver(id, receiver)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReceiver(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteReceiver(@PathVariable Long id) {
         boolean deleted = receiverService.deleteReceiver(id);
         if (deleted) {
             return ResponseEntity.noContent().build();

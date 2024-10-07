@@ -14,7 +14,7 @@ datasource db {
 }
 
 model SystemConfigs {
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   key       String   @unique
   value     String
   createdAt DateTime @default(now())
@@ -22,59 +22,62 @@ model SystemConfigs {
 }
 
 model User {
-   id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   username  String   @unique
   password  String
   email     String   @unique
   role      Role     @default(USER)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   orders    Orders[]
 
   @@map("user")
 }
 
 model Orders {
-   id        Int   @id @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   userId       Int
-  user         User            @relation(fields: [userId], references: [id])
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  orderDetails Order_details[]
+  user         User           @relation(fields: [userId], references: [id])
+  receiverId   Int
+  receiver     Receivers      @relation(fields: [receiverId], references: [id])
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  orderDetails OrderDetails[]
 }
 
 model Receivers {
-  id        Int   @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
   phone     String
   address   String
   email     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Orders    Orders[]
 }
 
 model Products {
-  id        Int   @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   name         String
   price        Float
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  orderDetails Order_details?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   vouchers     Vouchers[]
+  OrderDetails OrderDetails?
 }
 
-model Order_details {
-  id        Int   @id @default(autoincrement())
+model OrderDetails {
+  id        Int       @id @default(autoincrement())
   orderId   Int
   order     Orders    @relation(fields: [orderId], references: [id])
-  porductId Int?   @unique
-  Products  Products? @relation(fields: [porductId], references: [id])
+  productId Int?      @unique
+  Products  Products? @relation(fields: [productId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
 
 model Vouchers {
-  id        Int   @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   code      String    @unique
   discount  Float
   productId Int?

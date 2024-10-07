@@ -23,7 +23,7 @@ public class VouchersService {
         return vouchersRepository.findAll();
     }
 
-    public Optional<Vouchers> getVoucherById(Integer id) {
+    public Optional<Vouchers> getVoucherById(Long id) {
         return vouchersRepository.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class VouchersService {
         return vouchersRepository.save(voucher);
     }
 
-    public Optional<Vouchers> updateVoucher(Integer id, Vouchers voucherDetails) {
+    public Optional<Vouchers> updateVoucher(Long id, Vouchers voucherDetails) {
         return vouchersRepository.findById(id)
                 .map(existingVoucher -> {
                     existingVoucher.setCode(voucherDetails.getCode());
@@ -45,7 +45,7 @@ public class VouchersService {
                 });
     }
 
-    public boolean deleteVoucher(Integer id) {
+    public boolean deleteVoucher(Long id) {
         return vouchersRepository.findById(id)
                 .map(voucher -> {
                     vouchersRepository.delete(voucher);

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class OrdersService {
-    
+
     @Autowired
     private OrdersRepository ordersRepository;
 
@@ -19,7 +19,7 @@ public class OrdersService {
         return ordersRepository.findAll();
     }
 
-    public Optional<Orders> getOrderById(Integer id) {
+    public Optional<Orders> getOrderById(Long id) {
         return ordersRepository.findById(id);
     }
 
@@ -29,7 +29,7 @@ public class OrdersService {
         return ordersRepository.save(order);
     }
 
-    public Optional<Orders> updateOrder(Integer id, Orders orderDetails) {
+    public Optional<Orders> updateOrder(Long id, Orders orderDetails) {
         return ordersRepository.findById(id)
             .map(existingOrder -> {
                 existingOrder.setUser(orderDetails.getUser());
@@ -39,7 +39,7 @@ public class OrdersService {
             });
     }
 
-    public boolean deleteOrder(Integer id) {
+    public boolean deleteOrder(Long id) {
         return ordersRepository.findById(id)
             .map(order -> {
                 ordersRepository.delete(order);

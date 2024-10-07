@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class SystemConfigs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String key;

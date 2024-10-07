@@ -23,7 +23,7 @@ public class ProductsService {
         return productsRepository.findAll();
     }
 
-    public Optional<Products> getProductById(Integer id) {
+    public Optional<Products> getProductById(Long id) {
         return productsRepository.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class ProductsService {
         return productsRepository.save(product);
     }
 
-    public Optional<Products> updateProduct(Integer id, Products product) {
+    public Optional<Products> updateProduct(Long id, Products product) {
         return productsRepository.findById(id)
             .map(existingProduct -> {
                 existingProduct.setName(product.getName());
@@ -43,7 +43,7 @@ public class ProductsService {
             });
     }
 
-    public boolean deleteProduct(Integer id) {
+    public boolean deleteProduct(Long id) {
         return productsRepository.findById(id)
             .map(product -> {
                 productsRepository.delete(product);

@@ -26,7 +26,7 @@ public class OrderDetailsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable Integer id) {
+    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable Long id) {
         return orderDetailsService.getOrderDetailsById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -39,14 +39,14 @@ public class OrderDetailsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDetails> updateOrderDetails(@PathVariable Integer id, @RequestBody OrderDetails orderDetails) {
+    public ResponseEntity<OrderDetails> updateOrderDetails(@PathVariable Long id, @RequestBody OrderDetails orderDetails) {
         return orderDetailsService.updateOrderDetails(id, orderDetails)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrderDetails(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteOrderDetails(@PathVariable Long id) {
         boolean deleted = orderDetailsService.deleteOrderDetails(id);
         if (deleted) {
             return ResponseEntity.noContent().build();

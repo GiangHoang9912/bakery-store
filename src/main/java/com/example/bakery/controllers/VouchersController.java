@@ -26,7 +26,7 @@ public class VouchersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vouchers> getVoucherById(@PathVariable Integer id) {
+    public ResponseEntity<Vouchers> getVoucherById(@PathVariable Long id) {
         return vouchersService.getVoucherById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -39,14 +39,14 @@ public class VouchersController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vouchers> updateVoucher(@PathVariable Integer id, @RequestBody Vouchers voucher) {
+    public ResponseEntity<Vouchers> updateVoucher(@PathVariable Long id, @RequestBody Vouchers voucher) {
         return vouchersService.updateVoucher(id, voucher)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVoucher(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteVoucher(@PathVariable Long id) {
         boolean deleted = vouchersService.deleteVoucher(id);
         if (deleted) {
             return ResponseEntity.noContent().build();

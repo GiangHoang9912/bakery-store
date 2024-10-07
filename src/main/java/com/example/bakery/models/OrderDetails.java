@@ -4,33 +4,31 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Order_details")
+@Table(name = "OrderDetails")
 public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @ManyToOne
-    @JoinColumn(name = "orderId", nullable = false)
+    @JoinColumn(name = "orderId")
     private Orders order;
 
     @OneToOne
-    @JoinColumn(name = "porductId", unique = true)
+    @JoinColumn(name = "productId", unique = true)
     private Products product;
-    
 
-    @Column(nullable = false)
+    @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
-    // Constructors, getters, and setters
-    // Default constructor
+    // Controller and Getters and setters
+    // Constructor
     public OrderDetails() {
     }
 
-    // Constructor with order and product
     public OrderDetails(Orders order, Products product) {
         this.order = order;
         this.product = product;
@@ -38,11 +36,12 @@ public class OrderDetails {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Integer getId() {
+    // Getters and setters
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

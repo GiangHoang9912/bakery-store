@@ -2,13 +2,15 @@ package com.example.bakery.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Receivers")
 public class Receivers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -28,6 +30,9 @@ public class Receivers {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "receiver")
+    private List<Orders> orders = new ArrayList<>();
+
     // Constructors, getters, and setters
     // Default constructor
     public Receivers() {
@@ -44,11 +49,11 @@ public class Receivers {
     }
 
     // Getters and Setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
