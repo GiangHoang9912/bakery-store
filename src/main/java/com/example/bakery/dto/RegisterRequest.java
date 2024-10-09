@@ -1,26 +1,20 @@
 package com.example.bakery.dto;
 
 public class RegisterRequest {
-    private String username;
+    private String fullname;
     private String email;
     private String password;
+    private String phone;
 
     // Constructors
-    public RegisterRequest() {}
+    public RegisterRequest() {
+    }
 
-    public RegisterRequest(String username, String email, String password) {
-        this.username = username;
+    public RegisterRequest(String fullname, String email, String password, String phone) {
+        this.fullname = fullname;
         this.email = email;
         this.password = password;
-    }
-
-    // Getters and Setters
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -37,5 +31,21 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

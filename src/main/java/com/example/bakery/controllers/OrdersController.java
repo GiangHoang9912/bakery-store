@@ -1,5 +1,6 @@
 package com.example.bakery.controllers;
 
+import com.example.bakery.models.OrderStatus;
 import com.example.bakery.models.Orders;
 import com.example.bakery.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,12 @@ public class OrdersController {
         return ordersService.deleteOrder(id)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Orders> updateOrderStatus(@PathVariable Long id, @RequestBody OrderStatus newStatus) {
+        return ordersService.updateOrderStatus(id, newStatus)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

@@ -12,11 +12,11 @@ import java.util.Collections;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")  // Make sure this matches your database column name
+    @Column(name = "id") // Make sure this matches your database column name
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Column(nullable = true, name = "fullname")
+    private String fullname;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -24,25 +24,23 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(name = "role")
+    private Integer role;
+
+    @Column(nullable = true)
+    private String phone;
 
     // Constructors
-    public User() {}
-
-    public User(String username, String email, String password, Role role) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    public User() {
     }
 
-    public User(Long id,String username, String email, String password, Role role) {
+    public User(Long id, String fullname, String email, String password, Integer role, String phone) {
         this.id = id;
-        this.username = username;
+        this.fullname = fullname;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.phone = phone;
     }
 
     // Getters and Setters
@@ -54,12 +52,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getEmail() {
@@ -78,14 +76,29 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
+        if (this.role == 1) {
+            return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        } else if (this.role == 2) {
+            return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else {
+            return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_UNKNOWN"));
+        }
     }
 }

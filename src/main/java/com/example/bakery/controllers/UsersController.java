@@ -1,6 +1,5 @@
 package com.example.bakery.controllers;
 
-import com.example.bakery.dto.RegisterRequest;
 import com.example.bakery.models.User;
 import com.example.bakery.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,6 @@ public class UsersController {
     @Autowired
     public UsersController(UsersService usersService) {
         this.usersService = usersService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody RegisterRequest registerRequest) {
-        User registeredUser = usersService.registerUser(registerRequest);
-        return ResponseEntity.ok(registeredUser);
     }
 
     @GetMapping("/{id}")

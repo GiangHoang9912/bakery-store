@@ -1,5 +1,6 @@
 package com.example.bakery.services;
 
+import com.example.bakery.models.OrderStatus;
 import com.example.bakery.models.Orders;
 import com.example.bakery.repositories.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,14 @@ public class OrdersService {
                 return true;
             })
             .orElse(false);
+    }
+
+    public Optional<Orders> updateOrderStatus(Long id, OrderStatus newStatus) {
+        return ordersRepository.findById(id)
+            .map(existingOrder -> {
+                existingOrder.setStatus(newStatus);
+                existingOrder.setUpdatedAt(LocalDateTime.now());
+                return ordersRepository.save(existingOrder);
+            });
     }
 }
