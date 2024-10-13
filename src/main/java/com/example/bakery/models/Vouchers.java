@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Vouchers")
+@Table(name = "vouchers")
 public class Vouchers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +17,16 @@ public class Vouchers {
     private Float discount;
 
     @ManyToOne
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id", nullable = true)
     private Products product;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "expired_at")
     private LocalDateTime expiredAt;
 
     // Constructors, getters, and setters

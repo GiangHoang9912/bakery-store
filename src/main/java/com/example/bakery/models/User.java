@@ -1,5 +1,6 @@
 package com.example.bakery.models;
 
+import java.time.LocalDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -29,6 +30,12 @@ public class User {
 
     @Column(nullable = true)
     private String phone;
+
+    @Column(nullable = false, name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false, name = "updated_at")
+    private LocalDateTime updatedAt;
 
     // Constructors
     public User() {

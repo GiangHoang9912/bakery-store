@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "SystemConfigs")
+@Table(name = "system_configs")
 public class SystemConfigs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,10 +16,10 @@ public class SystemConfigs {
     @Column(nullable = false)
     private String value;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "updated_at")
     private LocalDateTime updatedAt;
 
     // Constructors, getters, and setters

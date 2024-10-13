@@ -23,8 +23,12 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(User user) {
-        List<GrantedAuthority> authorities = Collections.
-            singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities;
+        if (user.getRole() == 0) {
+            authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else {
+            authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        }
 
         return new UserPrincipal(
             user.getId(),
