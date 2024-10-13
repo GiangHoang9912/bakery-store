@@ -1,7 +1,12 @@
 package com.example.bakery.controllers;
 
 import com.example.bakery.models.Products;
+import com.example.bakery.models.Orders;
 import com.example.bakery.services.ProductsService;
+
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
