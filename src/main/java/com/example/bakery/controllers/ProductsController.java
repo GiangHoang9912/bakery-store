@@ -1,15 +1,15 @@
 package com.example.bakery.controllers;
 
 import com.example.bakery.models.Products;
-import com.example.bakery.models.Orders;
 import com.example.bakery.services.ProductsService;
-
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import java.util.List;
 public class ProductsController {
 
     private final ProductsService productsService;
+    private static final Logger logger = LoggerFactory.getLogger(ProductsController.class);
 
     @Autowired
     public ProductsController(ProductsService productsService) {
@@ -38,16 +39,44 @@ public class ProductsController {
     }
 
     @PostMapping
-    public ResponseEntity<Products> createProduct(@RequestBody Products product) {
-        Products createdProduct = productsService.createProduct(product);
-        return ResponseEntity.ok(createdProduct);
+    public ResponseEntity<?> createProduct(
+            @RequestParam("name") String name,
+            @RequestParam("price") float price,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
+        try {
+            Products productToCreate = new Products();
+            productToCreate.setName(name);
+            productToCreate.setPrice(price);
+
+            if (imageFile != null) {
+                logger.info("Kích thước tệp ảnh: {} bytes", imageFile.getSize());
+            }
+            Products createdProduct = productsService.createProduct(productToCreate, imageFile);
+            logger.info("Đường dẫn ảnh đã lưu: {}", createdProduct.getImage());
+            return ResponseEntity.ok(createdProduct);
+        } catch (IOException e) {
+            logger.error("Lỗi khi xử lý tệp", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi khi xử lý tệp: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Products> updateProduct(@PathVariable Long id, @RequestBody Products product) {
-        return productsService.updateProduct(id, product)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Products> updateProduct(
+            @PathVariable Long id,
+            @RequestParam("name") String name,
+            @RequestParam("price") float price,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
+        try {
+            Products productToUpdate = new Products();
+            productToUpdate.setName(name);
+            productToUpdate.setPrice(price);
+            return productsService.updateProduct(id, productToUpdate, imageFile)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/{id}")

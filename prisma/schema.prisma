@@ -22,14 +22,14 @@ model SystemConfigs {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   fullname  String?
   phone     String?
   password  String
-  email     String   @unique
-  role      Int      @default(1)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  email     String    @unique
+  role      Int       @default(1)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @default(now()) @updatedAt @map("updated_at")
   orders    Orders[]
 
   @@map("user")
@@ -42,21 +42,21 @@ model Orders {
   receiverId   Int            @map("receiver_id")
   status       String         @default("pending")
   receiver     Receivers      @relation(fields: [receiverId], references: [id])
-  createdAt    DateTime       @default(now()) @map("created_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
+  createdAt    DateTime?      @default(now()) @map("created_at")
+  updatedAt    DateTime?      @updatedAt @map("updated_at")
   orderDetails OrderDetails[]
 
   @@map("orders")
 }
 
 model Receivers {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   phone     String
   address   String
   email     String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
   Orders    Orders[]
 
   @@map("receivers")
@@ -67,9 +67,10 @@ model Products {
   name         String
   price        Float
   vouchers     Vouchers[]
+  image        String?
   OrderDetails OrderDetails?
-  createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt @map("updated_at")
+  createdAt    DateTime?     @default(now()) @map("created_at")
+  updatedAt    DateTime?     @updatedAt @map("updated_at")
 
   @@map("products")
 }
@@ -80,8 +81,8 @@ model OrderDetails {
   order     Orders    @relation(fields: [orderId], references: [id])
   productId Int?      @unique @map("product_id")
   Products  Products? @relation(fields: [productId], references: [id])
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   @@map("order_details")
 }
@@ -92,8 +93,8 @@ model Vouchers {
   discount  Float
   productId Int?      @map("product_id")
   product   Products? @relation(fields: [productId], references: [id])
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
   expiredAt DateTime? @default(now()) @map("expired_at")
 
   @@map("vouchers")

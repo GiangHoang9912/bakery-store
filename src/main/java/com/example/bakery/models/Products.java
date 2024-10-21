@@ -14,6 +14,7 @@ public class Products {
 
     private String name;
     private float price;
+    private String image;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -94,5 +95,18 @@ public class Products {
 
     public void setOrderDetail(OrderDetails orderDetail) {
         this.orderDetail = orderDetail;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    // Thêm phương thức để lấy URL đầy đủ của hình ảnh
+    public String getImageUrl() {
+        return image != null ? "http://localhost:8080" + image : null;
     }
 }
