@@ -24,10 +24,10 @@ public class Receivers {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, name = "created_at")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "receiver")
@@ -36,6 +36,8 @@ public class Receivers {
     // Constructors, getters, and setters
     // Default constructor
     public Receivers() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     // Parameterized constructor

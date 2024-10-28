@@ -2,6 +2,10 @@ package com.example.bakery.models;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "order_details")
@@ -10,12 +14,13 @@ public class OrderDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonBackReference(value = "order-details")
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Orders order;
 
     @OneToOne
-    @JoinColumn(name = "product_id", unique = true)
+    @JoinColumn(name = "product_id")
     private Products product;
 
     @Column(name = "created_at")
@@ -24,9 +29,17 @@ public class OrderDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private int quantity;
+
+    @Column(nullable = false)
+    private double price;
+
     // Controller and Getters and setters
     // Constructor
     public OrderDetails() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public OrderDetails(Orders order, Products product) {
@@ -75,5 +88,21 @@ public class OrderDetails {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

@@ -37,4 +37,16 @@ public class ContactUsController {
         ContactUs createdContactUs = contactUsService.createContactUs(contactUs);
         return ResponseEntity.ok(createdContactUs);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ContactUs> updateContactUs(@PathVariable String id, @RequestBody ContactUs contactUs) {
+        ContactUs updatedContactUs = contactUsService.updateContactUs(id, contactUs);
+        return ResponseEntity.ok(updatedContactUs);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContactUs(@PathVariable String id) {
+        contactUsService.deleteContactUs(id);
+        return ResponseEntity.noContent().build();
+    }
 }

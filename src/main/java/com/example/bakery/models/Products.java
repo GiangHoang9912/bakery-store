@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "products")
@@ -19,18 +20,22 @@ public class Products {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updatedAt")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Vouchers> vouchers = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "product")
     private OrderDetails orderDetail;
 
     // Controller and Getters and setters
     // Constructor
     public Products() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Products(String name, float price) {

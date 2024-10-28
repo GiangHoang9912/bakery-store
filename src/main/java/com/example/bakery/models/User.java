@@ -31,10 +31,10 @@ public class User {
     @Column(nullable = true)
     private String phone;
 
-    @Column(nullable = false, name = "created_at")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     // Constructors

@@ -1,11 +1,16 @@
 package com.example.bakery.controllers;
 
+import com.example.bakery.dto.OrderRequestDTO;
 import com.example.bakery.models.OrderStatus;
 import com.example.bakery.models.Orders;
 import com.example.bakery.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import com.example.bakery.security.UserPrincipal;
 
 import java.util.List;
 
@@ -29,8 +34,17 @@ public class OrdersController {
     }
 
     @PostMapping
-    public Orders createOrder(@RequestBody Orders order) {
-        return ordersService.saveOrder(order);
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Orders> createOrder(@RequestBody OrderRequestDTO orderRequest) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            Long userId = userPrincipal.getId();
+            Orders createdOrder = ordersService.createOrder(orderRequest, userId);
+            return ResponseEntity.ok(createdOrder);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")

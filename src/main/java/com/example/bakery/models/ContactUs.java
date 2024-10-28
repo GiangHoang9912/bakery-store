@@ -22,15 +22,17 @@ public class ContactUs {
     @Column(nullable = false)
     private String note;
 
-    @Column(nullable = false, name = "created_at")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     // Constructors, getters, and setters
     // Default constructor
     public ContactUs() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     // Parameterized constructor

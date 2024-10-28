@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "orders")
@@ -16,10 +18,12 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @JsonBackReference(value = "user-orders")
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
+    @JsonBackReference(value = "receiver-orders")
     @ManyToOne
     @JoinColumn(name = "receiver_id", nullable = true)
     private Receivers receiver;
@@ -30,6 +34,7 @@ public class Orders {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @JsonManagedReference(value = "order-details")
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetails> orderDetails = new ArrayList<>();
 

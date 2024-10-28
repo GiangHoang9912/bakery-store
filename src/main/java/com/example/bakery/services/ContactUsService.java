@@ -29,4 +29,12 @@ public class ContactUsService {
     public ContactUs createContactUs(ContactUs contactUs) {
         return contactUsRepository.save(contactUs);
     }
+
+    public ContactUs updateContactUs(String id, ContactUs contactUs) {
+        return contactUsRepository.save(contactUs);
+    }
+
+    public void deleteContactUs(String id) {
+        contactUsRepository.deleteById(id);
+    }
 }
