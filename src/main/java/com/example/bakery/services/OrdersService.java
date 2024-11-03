@@ -42,20 +42,22 @@ public class OrdersService {
         order.setStatus(OrderStatus.PENDING);
 
         User user = usersRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy user với ID: " + userId));
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy user với ID: " + userId));
         order.setUser(user);
 
         // Thêm receiver vào order
         if (orderRequest.getReceiverId() != null) {
             Receivers receiver = receiversRepository.findById(orderRequest.getReceiverId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy receiver với ID: " + orderRequest.getReceiverId()));
+                    .orElseThrow(() -> new RuntimeException(
+                            "Không tìm thấy receiver với ID: " + orderRequest.getReceiverId()));
             order.setReceiver(receiver);
         }
 
         // Tạo các chi tiết đơn hàng
         for (OrderRequestDTO.OrderDetailRequestDTO detailDTO : orderRequest.getOrderDetails()) {
             Products product = productsRepository.findById(detailDTO.getProductId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với ID: " + detailDTO.getProductId()));
+                    .orElseThrow(
+                            () -> new RuntimeException("Không tìm thấy sản phẩm với ID: " + detailDTO.getProductId()));
 
             OrderDetails orderDetail = new OrderDetails();
             orderDetail.setProduct(product);
@@ -84,29 +86,33 @@ public class OrdersService {
 
     public Optional<Orders> updateOrder(Long id, Orders orderDetails) {
         return ordersRepository.findById(id)
-            .map(existingOrder -> {
-                existingOrder.setUser(orderDetails.getUser());
-                existingOrder.setOrderDetails(orderDetails.getOrderDetails());
-                existingOrder.setUpdatedAt(LocalDateTime.now());
-                return ordersRepository.save(existingOrder);
-            });
+                .map(existingOrder -> {
+                    existingOrder.setUser(orderDetails.getUser());
+                    existingOrder.setOrderDetails(orderDetails.getOrderDetails());
+                    existingOrder.setUpdatedAt(LocalDateTime.now());
+                    return ordersRepository.save(existingOrder);
+                });
     }
 
     public boolean deleteOrder(Long id) {
         return ordersRepository.findById(id)
-            .map(order -> {
-                ordersRepository.delete(order);
-                return true;
-            })
-            .orElse(false);
+                .map(order -> {
+                    ordersRepository.delete(order);
+                    return true;
+                })
+                .orElse(false);
     }
 
     public Optional<Orders> updateOrderStatus(Long id, OrderStatus newStatus) {
         return ordersRepository.findById(id)
-            .map(existingOrder -> {
-                existingOrder.setStatus(newStatus);
-                existingOrder.setUpdatedAt(LocalDateTime.now());
-                return ordersRepository.save(existingOrder);
-            });
+                .map(existingOrder -> {
+                    existingOrder.setStatus(newStatus);
+                    existingOrder.setUpdatedAt(LocalDateTime.now());
+                    return ordersRepository.save(existingOrder);
+                });
+    }
+
+    public List<Orders> getOrdersByUserId(Long userId) {
+        return ordersRepository.findByUserId(userId);
     }
 }

@@ -28,8 +28,8 @@ public class Products {
     private List<Vouchers> vouchers = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "product")
-    private OrderDetails orderDetail;
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetails> orderDetails = new ArrayList<>();
 
     // Controller and Getters and setters
     // Constructor
@@ -94,12 +94,12 @@ public class Products {
         this.vouchers = vouchers;
     }
 
-    public OrderDetails getOrderDetail() {
-        return orderDetail;
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setOrderDetail(OrderDetails orderDetail) {
-        this.orderDetail = orderDetail;
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 
     public String getImage() {

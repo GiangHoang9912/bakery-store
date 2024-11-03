@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
-    // You can add custom query methods here if needed
+    void deleteByOrderId(Integer orderId);
 }

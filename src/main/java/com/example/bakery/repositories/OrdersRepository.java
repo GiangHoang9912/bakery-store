@@ -21,4 +21,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     @NonNull
     List<Orders> findAll();
+
+    void deleteByUserId(Long userId);
 }

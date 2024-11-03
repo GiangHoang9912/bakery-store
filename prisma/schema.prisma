@@ -38,10 +38,10 @@ model User {
 model Orders {
   id           Int            @id @default(autoincrement())
   userId       Int            @map("user_id")
-  user         User           @relation(fields: [userId], references: [id])
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   receiverId   Int            @map("receiver_id")
   status       String         @default("pending")
-  receiver     Receivers      @relation(fields: [receiverId], references: [id])
+  receiver     Receivers      @relation(fields: [receiverId], references: [id], onDelete: Cascade)
   createdAt    DateTime?      @default(now()) @map("created_at")
   updatedAt    DateTime?      @updatedAt @map("updated_at")
   orderDetails OrderDetails[]
@@ -63,28 +63,29 @@ model Receivers {
 }
 
 model Products {
-  id           Int           @id @default(autoincrement())
-  name         String
-  price        Float
-  vouchers     Vouchers[]
-  image        String?
-  OrderDetails OrderDetails?
-  createdAt    DateTime?     @default(now()) @map("created_at")
-  updatedAt    DateTime?     @updatedAt @map("updated_at")
+  id             Int           @id @default(autoincrement())
+  name           String
+  price          Float
+  vouchers       Vouchers[]
+  image          String?
+  OrderDetails   OrderDetails? @relation(fields: [orderDetailsId], references: [id])
+  createdAt      DateTime?     @default(now()) @map("created_at")
+  updatedAt      DateTime?     @updatedAt @map("updated_at")
+  orderDetailsId Int?
 
   @@map("products")
 }
 
 model OrderDetails {
-  id        Int       @id @default(autoincrement())
-  orderId   Int       @map("order_id")
-  order     Orders    @relation(fields: [orderId], references: [id])
-  productId Int?      @unique @map("product_id")
-  Products  Products? @relation(fields: [productId], references: [id])
-  quantity  Int       @default(1)
+  id        Int        @id @default(autoincrement())
+  orderId   Int        @map("order_id")
+  order     Orders     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int?       @map("product_id")
+  quantity  Int        @default(1)
   price     Float
-  createdAt DateTime? @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
+  createdAt DateTime?  @default(now()) @map("created_at")
+  updatedAt DateTime?  @updatedAt @map("updated_at")
+  Products  Products[]
 
   @@map("order_details")
 }
@@ -94,7 +95,7 @@ model Vouchers {
   code      String    @unique
   discount  Float
   productId Int?      @map("product_id")
-  product   Products? @relation(fields: [productId], references: [id])
+  product   Products? @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime? @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
   expiredAt DateTime? @default(now()) @map("expired_at")

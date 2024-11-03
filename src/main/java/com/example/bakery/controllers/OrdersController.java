@@ -33,6 +33,16 @@ public class OrdersController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<Orders>> getOrdersByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long userId = userPrincipal.getId();
+        List<Orders> orders = ordersService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orders);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Orders> createOrder(@RequestBody OrderRequestDTO orderRequest) {

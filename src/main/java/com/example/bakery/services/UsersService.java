@@ -1,13 +1,17 @@
 package com.example.bakery.services;
 
 import com.example.bakery.dto.RegisterRequest;
+import com.example.bakery.models.Orders;
 import com.example.bakery.models.User;
 import com.example.bakery.repositories.UserRepository;
+import com.example.bakery.repositories.OrdersRepository;
+import com.example.bakery.repositories.OrderDetailsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,12 +19,16 @@ import java.util.List;
 public class UsersService {
     private static final Logger logger = LoggerFactory.getLogger(UsersService.class);
     private final UserRepository userRepository;
+    private final OrdersRepository ordersRepository;
+    private final OrderDetailsRepository orderDetailsRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsersService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UsersService(UserRepository userRepository, PasswordEncoder passwordEncoder, OrdersRepository ordersRepository, OrderDetailsRepository orderDetailsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.ordersRepository = ordersRepository;
+        this.orderDetailsRepository = orderDetailsRepository;
     }
 
     public User registerUser(RegisterRequest registerRequest) {
@@ -57,14 +65,35 @@ public class UsersService {
         return null;
     }
 
+    @Transactional
     public boolean deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            if (userRepository.findById(id).get().getRole() == 0) {
-                return false;
+        try {
+            User user = userRepository.findById(id).orElse(null);
+            if (user != null) {
+                if (user.getRole() == 0) {
+                    return false;
+                }
+                List<Orders> orders = ordersRepository.findByUserId(id);
+                for (Orders order : orders) {
+                    orderDetailsRepository.deleteByOrderId(order.getId());
+                }
+                ordersRepository.deleteByUserId(id);
+                userRepository.deleteById(id);
+                return true;
             }
-            userRepository.deleteById(id);
-            return true;
+            return false;
+        } catch (Exception e) {
+            logger.error("Không thể xóa user có id=" + id + ". User có đơn hàng liên kết.", e);
+            return false;
         }
-        return false;
+    }
+
+    public User resetPassword(Long id, String newPassword) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            return userRepository.save(user);
+        }
+        return null;
     }
 }
