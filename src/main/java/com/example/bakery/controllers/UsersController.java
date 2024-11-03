@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
+import com.example.bakery.dto.ForgotPasswordRequest;
 import java.util.List;
 
 @RestController
@@ -74,6 +74,17 @@ public class UsersController {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Long userId = userPrincipal.getId();
         User updatedUser = usersService.resetPassword(userId, newPassword);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/forgot-password")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<User> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        User updatedUser = usersService.forgotPassword(request.getEmail(), request.getNewPassword());
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
