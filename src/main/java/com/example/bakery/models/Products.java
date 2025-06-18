@@ -112,6 +112,6 @@ public class Products {
 
     // Thêm phương thức để lấy URL đầy đủ của hình ảnh
     public String getImageUrl() {
-        return image != null ? "http://localhost:8080" + image : null;
+        return image != null ? image : null;
     }
 }
